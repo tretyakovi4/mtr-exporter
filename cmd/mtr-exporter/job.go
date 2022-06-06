@@ -62,11 +62,11 @@ func (job *mtrJob) Launch() error {
 
 	launched := time.Now()
 
-	for key := range domains {
+	for key := range personMap {
 		args := job.args
 		//args = append(args, domains[key])
-		args = append(args, string(domains[key]))
-		fmt.Println("Key here ", domains)
+		args = append(args, key)
+		fmt.Println("Key here ", key)
 		cmd := exec.Command(job.mtrBinary, args...)
 
 		// launch mtr
