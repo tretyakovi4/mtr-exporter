@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"os/exec"
 	"strings"
 	"sync"
@@ -35,26 +37,26 @@ func newMtrJob(mtr string, args []string) *mtrJob {
 }
 
 func (job *mtrJob) Launch() error {
-	/*
-		jsonStr, err := ioutil.ReadFile("./url.json")
-		domains := make(map[string]interface{})
 
-		json.Unmarshal([]byte(jsonStr), &domains)
+	jsonStr, err := ioutil.ReadFile("./url.json")
+	domains := make(map[string]interface{})
 
-		if err != nil {
-			panic(err)
-		}
+	json.Unmarshal([]byte(jsonStr), &domains)
 
-			for key, value := range personMap {
-				fmt.Println("index : ", key, " value : ", value)
-			}
-	*/
-	domains := []string{
-		"us-east-bidder.mathtag.com",
-		"33across-us-east.lb.indexww.com",
-		"exapi-33across-us-east.rubiconproject.com",
+	if err != nil {
+		panic(err)
 	}
+	/*
 
+				for key, value := range personMap {
+					fmt.Println("index : ", key, " value : ", value)
+				}
+		domains := []string{
+			"us-east-bidder.mathtag.com",
+			"33across-us-east.lb.indexww.com",
+			"exapi-33across-us-east.rubiconproject.com",
+		}
+	*/
 	reports := []*mtrReport{}
 
 	launched := time.Now()
@@ -62,7 +64,7 @@ func (job *mtrJob) Launch() error {
 	for key := range domains {
 		args := job.args
 		//args = append(args, domains[key])
-		args = append(args, domains[key])
+		args = append(args, key)
 		//fmt.Println("Key here ", domains[key])
 		//fmt.Println("Command: ", args)
 		cmd := exec.Command(job.mtrBinary, args...)
