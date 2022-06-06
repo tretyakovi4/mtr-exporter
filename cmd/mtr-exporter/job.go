@@ -24,7 +24,7 @@ type mtrJob struct {
 
 func newMtrJob(mtr string, args []string) *mtrJob {
 	extra := []string{
-		"-j -TP 443", // json output
+		"-j -TP ", // json output
 	}
 	args = append(extra, args...)
 	cmd := exec.Command(mtr, args...)
