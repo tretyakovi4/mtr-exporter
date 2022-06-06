@@ -46,27 +46,13 @@ func (job *mtrJob) Launch() error {
 	if err != nil {
 		panic(err)
 	}
-	/*
 
-				for key, value := range personMap {
-					fmt.Println("index : ", key, " value : ", value)
-				}
-		domains := []string{
-			"us-east-bidder.mathtag.com",
-			"33across-us-east.lb.indexww.com",
-			"exapi-33across-us-east.rubiconproject.com",
-		}
-	*/
 	reports := []*mtrReport{}
-
 	launched := time.Now()
 
-	for key := range domains {
+	for key, value := range domains {
 		args := job.args
-		//args = append(args, domains[key])
-		args = append(args, key)
-		//fmt.Println("Key here ", domains[key])
-		//fmt.Println("Command: ", args)
+		args = append(args, value.(string), key)
 		cmd := exec.Command(job.mtrBinary, args...)
 
 		// launch mtr
