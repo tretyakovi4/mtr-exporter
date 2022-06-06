@@ -39,10 +39,10 @@ func newMtrJob(mtr string, args []string) *mtrJob {
 
 func (job *mtrJob) Launch() error {
 
-	domains, err := ioutil.ReadFile("./url.json")
-	personMap := make(map[string]interface{})
+	jsonStr, err := ioutil.ReadFile("./url.json")
+	domains := make(map[string]interface{})
 
-	json.Unmarshal([]byte(domains), &personMap)
+	json.Unmarshal([]byte(jsonStr), &domains)
 
 	if err != nil {
 		panic(err)
@@ -62,7 +62,7 @@ func (job *mtrJob) Launch() error {
 
 	launched := time.Now()
 
-	for key := range personMap {
+	for key := range domains {
 		args := job.args
 		//args = append(args, domains[key])
 		args = append(args, key)
