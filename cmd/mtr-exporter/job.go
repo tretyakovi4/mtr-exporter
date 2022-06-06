@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os/exec"
 	"strings"
@@ -65,6 +66,7 @@ func (job *mtrJob) Launch() error {
 		args := job.args
 		//args = append(args, domains[key])
 		args = append(args, string(domains[key]))
+		fmt.Println("Key here ", key)
 		cmd := exec.Command(job.mtrBinary, args...)
 
 		// launch mtr
