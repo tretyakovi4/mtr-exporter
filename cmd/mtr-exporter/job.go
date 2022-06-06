@@ -66,7 +66,7 @@ func (job *mtrJob) Launch() error {
 		args := job.args
 		//args = append(args, domains[key])
 		args = append(args, string(domains[key]))
-		fmt.Println("Key here ", key)
+		fmt.Println("Key here ", domains[key])
 		cmd := exec.Command(job.mtrBinary, args...)
 
 		// launch mtr
