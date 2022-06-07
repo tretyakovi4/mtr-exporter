@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io/ioutil"
 	"os/exec"
 	"strings"
 	"sync"
@@ -36,21 +38,22 @@ func newMtrJob(mtr string, args []string) *mtrJob {
 
 func (job *mtrJob) Launch() error {
 
-	// TODO: maybe use CommandContext to have an upper limit in the execution
-	domains := []string{
-		"us-east-bidder.mathtag.com",
-		"33across-us-east.lb.indexww.com",
-		"exapi-33across-us-east.rubiconproject.com",
+	jsonStr, err := ioutil.ReadFile("./url.json")
+	domains := make(map[string]interface{})
+
+	json.Unmarshal([]byte(jsonStr), &domains)
+
+	if err != nil {
+		panic(err)
 	}
 
 	reports := []*mtrReport{}
-
 	launched := time.Now()
 
-	for i := range domains {
+	for key, value := range domains {
 		args := job.args
-		args = append(args, domains[i])
-		cmd := exec.Command(job.mtrBinary, args...) // Будет работать если не передать домен через пробел
+		args = append(args, value.(string), key)
+		cmd := exec.Command(job.mtrBinary, args...)
 
 		// launch mtr
 		buf := bytes.Buffer{}
