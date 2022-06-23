@@ -38,7 +38,7 @@ func newMtrJob(mtr string, args []string) *mtrJob {
 
 func (job *mtrJob) Launch() error {
 
-	jsonStr, err := ioutil.ReadFile("./url.json")
+	jsonStr, err := ioutil.ReadFile("/opt/mtr-exporter/url.json")
 	domains := make(map[string]interface{})
 
 	json.Unmarshal([]byte(jsonStr), &domains)
